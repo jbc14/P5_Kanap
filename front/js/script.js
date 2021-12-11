@@ -27,7 +27,7 @@ const items = document.getElementById("items");
 
 function newItem(product) {
   items.innerHTML += `
-  <a href="./product.html?${product._id}">
+  <a href="./product.html?id=${product._id}">
             <article>
               <img src="${product.imageUrl}" alt="${product.altTxt}">
               <h3 class="productName">${product.name}</h3>
