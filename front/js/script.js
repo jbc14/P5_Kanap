@@ -33,7 +33,7 @@ function newItem(product) {
               <h3 class="productName">${product.name}</h3>
               <p class="productDescription">${product.description}</p>
             </article>
-          </a>`
+          </a>`;
 }
 
 function createProducts(products) {
