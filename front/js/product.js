@@ -43,33 +43,94 @@ main();
 // });
 // getProductContent(productId).then(displayContent);
 
-//Local Storage
+//------------------------------------Local Storage
 
-// let productName = document.getElementById("title").textContent;
+// function dataStorage(productContent) {
+//   const productObject = {
+//     name: `${productContent.name}`,
+//     color: document.getElementById('colors').value,
+//     quantity: document.getElementById('quantity').value,
+//   };
+
+//   document.getElementById("addToCart").onclick = () => {
+//     localStorage.setItem("product", JSON.stringify(productObject));
+
+//     // localStorage.setItem("name", `${productContent.name}`);
+//     // localStorage.setItem("color", colors.value);
+//     // localStorage.setItem("quantity", quantity.value);
+//     document.location.reload();
+//   };
+// }
+
+// async function addToCart() {
+//   const productId = getProductId();
+//   const productContent = await getProductContent(productId);
+//   dataStorage(productContent);
+// }
+
+// addToCart();
+
+//------------------------------------------------------------ DEUXIEME ESSAI
+// function saveCart() {
+//   localStorage.setItem("cart", JSON.stringify(cart));
+// }
+
+// function getCart() {
+//   let cart = localStorage.getItem("cart");
+//   if (cart == null) {
+//     return [];
+//   } else {
+//     return JSON.parse(cart);
+//   }
+// }
+
+// async function addToCart() {
+//   const productId = getProductId();
+//   const productContent = await getProductContent(productId);
+
+//   let productObject = {
+//     id: productContent.id,
+//     color: colors.value,
+//     quantity: quantity.value,
+//   };
+
+//   let cart = getCart();
+//   cart.push(productObject);
+//   saveCart(cart);
+// }
 
 // document.getElementById("addToCart").onclick = () => {
-//   localStorage.setItem("name", `${productName}`);
+//   addToCart();
+//   document.location.reload();
 // };
 
-function dataStorage(productContent) {
-  const productObject = {
-    name: `${productContent.name}`,
-    color: colors.value,
-    quantity: quantity.value,
-  };
+//-------------------------------Troisième essai---------------------
 
-  document.getElementById("addToCart").onclick = () => {
-    localStorage.setItem("name", `${productContent.name}`);
-    localStorage.setItem("color", colors.value);
-    localStorage.setItem("quantity", quantity.value);
-    document.location.reload();
-  };
-}
+const btn_addToCart = document.getElementById("addToCart");
 
-async function addToCart() {
+btn_addToCart.addEventListener("click", (event) => {
   const productId = getProductId();
-  const productContent = await getProductContent(productId);
-  dataStorage(productContent);
-}
 
-addToCart();
+  const colorChoice = document.getElementById("colors").value;
+
+  const quantityChoice = document.getElementById("quantity").value;
+
+  let productOptions = {
+    id: productId,
+    color: colorChoice,
+    quantity: quantityChoice,
+  };
+
+  let getLocalStorage = JSON.parse(localStorage.getItem("product"));
+
+  if (getLocalStorage !== null) {
+    getLocalStorage.push(productOptions);
+    localStorage.setItem("product", JSON.stringify(getLocalStorage));
+  } else {
+    getLocalStorage = [];
+    getLocalStorage.push(productOptions);
+    localStorage.setItem("product", JSON.stringify(getLocalStorage));
+  }
+
+  console.log(getLocalStorage);
+});
