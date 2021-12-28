@@ -71,18 +71,6 @@ main();
 // addToCart();
 
 //------------------------------------------------------------ DEUXIEME ESSAI
-// function saveCart() {
-//   localStorage.setItem("cart", JSON.stringify(cart));
-// }
-
-// function getCart() {
-//   let cart = localStorage.getItem("cart");
-//   if (cart == null) {
-//     return [];
-//   } else {
-//     return JSON.parse(cart);
-//   }
-// }
 
 // async function addToCart() {
 //   const productId = getProductId();
@@ -106,31 +94,47 @@ main();
 
 //-------------------------------Troisième essai---------------------
 
-const btn_addToCart = document.getElementById("addToCart");
+function saveCart(cart) {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
 
-btn_addToCart.addEventListener("click", (event) => {
+function getCart() {
+  let cart = localStorage.getItem("cart");
+  if (cart == null) {
+    return [];
+  } else {
+    return JSON.parse(cart);
+  }
+}
+
+document.getElementById("addToCart").addEventListener("click", () => {
   const productId = getProductId();
 
   const colorChoice = document.getElementById("colors").value;
 
-  const quantityChoice = document.getElementById("quantity").value;
+  const quantityChoice = document.getElementById("quantity").valueAsNumber;
+  console.log(quantityChoice);
 
-  let productOptions = {
+  const productOptions = {
     id: productId,
     color: colorChoice,
     quantity: quantityChoice,
   };
 
-  let getLocalStorage = JSON.parse(localStorage.getItem("product"));
+  const cart = getCart();
 
-  if (getLocalStorage !== null) {
-    getLocalStorage.push(productOptions);
-    localStorage.setItem("product", JSON.stringify(getLocalStorage));
+  //Ajouter le produit au panier ou modifier la quantité si le produit existe
+  const productInCart = cart.find((product) => {
+    return (
+      product.id === productOptions.id && product.color === productOptions.color
+    );
+  });
+
+  if (productInCart) {
+    productInCart.quantity += productOptions.quantity;
   } else {
-    getLocalStorage = [];
-    getLocalStorage.push(productOptions);
-    localStorage.setItem("product", JSON.stringify(getLocalStorage));
+    cart.push(productOptions);
   }
 
-  console.log(getLocalStorage);
+  saveCart(cart);
 });
