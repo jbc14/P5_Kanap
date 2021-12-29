@@ -37,60 +37,6 @@ async function main() {
 
 main();
 
-// const productId = getProductId();
-// getProductContent(productId).then((productContent) => {
-//   displayContent(productContent);
-// });
-// getProductContent(productId).then(displayContent);
-
-//------------------------------------Local Storage
-
-// function dataStorage(productContent) {
-//   const productObject = {
-//     name: `${productContent.name}`,
-//     color: document.getElementById('colors').value,
-//     quantity: document.getElementById('quantity').value,
-//   };
-
-//   document.getElementById("addToCart").onclick = () => {
-//     localStorage.setItem("product", JSON.stringify(productObject));
-
-//     // localStorage.setItem("name", `${productContent.name}`);
-//     // localStorage.setItem("color", colors.value);
-//     // localStorage.setItem("quantity", quantity.value);
-//     document.location.reload();
-//   };
-// }
-
-// async function addToCart() {
-//   const productId = getProductId();
-//   const productContent = await getProductContent(productId);
-//   dataStorage(productContent);
-// }
-
-// addToCart();
-
-//------------------------------------------------------------ DEUXIEME ESSAI
-
-// async function addToCart() {
-//   const productId = getProductId();
-//   const productContent = await getProductContent(productId);
-
-//   let productObject = {
-//     id: productContent.id,
-//     color: colors.value,
-//     quantity: quantity.value,
-//   };
-
-//   let cart = getCart();
-//   cart.push(productObject);
-//   saveCart(cart);
-// }
-
-// document.getElementById("addToCart").onclick = () => {
-//   addToCart();
-//   document.location.reload();
-// };
 
 //-------------------------------Troisième essai---------------------
 
