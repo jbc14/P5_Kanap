@@ -46,11 +46,11 @@ function saveCart(cart) {
 
 function getCart() {
   let cart = localStorage.getItem("cart");
-  if (cart == null) {
+  if (!cart) {
     return [];
-  } else {
-    return JSON.parse(cart);
   }
+
+  return JSON.parse(cart);
 }
 
 document.getElementById("addToCart").addEventListener("click", () => {
