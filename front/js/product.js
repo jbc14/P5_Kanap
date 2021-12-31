@@ -37,7 +37,6 @@ async function main() {
 
 main();
 
-
 //-------------------------------Troisième essai---------------------
 
 function saveCart(cart) {
@@ -78,8 +77,14 @@ document.getElementById("addToCart").addEventListener("click", () => {
 
   if (productInCart) {
     productInCart.quantity += productOptions.quantity;
+    alert(
+      "Ce produit était déjà dans votre panier, la quantité a été mise à jour avec succès"
+    );
   } else {
     cart.push(productOptions);
+    alert(
+      "Ce produit a été ajouté avec succès. Accédez à votre panier pour finaliser votre commande"
+    );
   }
 
   saveCart(cart);
