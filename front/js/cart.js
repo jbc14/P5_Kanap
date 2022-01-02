@@ -141,9 +141,37 @@ async function displayCart() {
 
 displayCart();
 
+//----------------------------------Validation des champs du formulaire----------------
+
+// document.getElementById("email").addEventListener("input", function (e) {
+//   let emailFormValue = e.target.value;
+//   const emailErrorMsg = document.getElementById("emailErrorMsg");
+//   const masqueEmail1 = /@/;
+//   const masqueEmail2 = /\.com|\.fr/;
+
+//   if (!emailFormValue || masqueEmail1.test(emailFormValue) && masqueEmail2.test(emailFormValue)) {
+//     emailErrorMsg.textContent = " ";
+//   } else {
+//     emailErrorMsg.textContent = "Veuillez renseigner une adresse email valide";
+//   }
+// });
+
+document.getElementById("email").addEventListener("input", function (e) {
+  const emailFormValue = e.target.value;
+  const emailErrorMsg = document.getElementById("emailErrorMsg");
+  const masqueEmail1 = /@/;
+  const masqueEmail2 = /\.com|\.fr/;
+
+  if (!emailFormValue || masqueEmail1.test(emailFormValue) && masqueEmail2.test(emailFormValue)) {
+    emailErrorMsg.textContent = " ";
+  } else {
+    emailErrorMsg.textContent = "Veuillez renseigner une adresse email valide";
+  }
+});
+
 //https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Modules
 
 //Modules
 //Suite de tests
-//Envoi du formaulaire et validation des champs
+//Envoi du formulaire et validation des champs
 //Page de validation
