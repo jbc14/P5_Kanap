@@ -143,18 +143,44 @@ displayCart();
 
 //----------------------------------Validation des champs du formulaire----------------
 
-// document.getElementById("email").addEventListener("input", function (e) {
-//   let emailFormValue = e.target.value;
-//   const emailErrorMsg = document.getElementById("emailErrorMsg");
-//   const masqueEmail1 = /@/;
-//   const masqueEmail2 = /\.com|\.fr/;
+document.getElementById("firstName").addEventListener("input", function (e) {
+  let firstNameFormValue = e.target.value;
+  const firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+  const masqueFirstName = /[0-9]/;
 
-//   if (!emailFormValue || masqueEmail1.test(emailFormValue) && masqueEmail2.test(emailFormValue)) {
-//     emailErrorMsg.textContent = " ";
-//   } else {
-//     emailErrorMsg.textContent = "Veuillez renseigner une adresse email valide";
-//   }
-// });
+  if (firstNameFormValue && masqueFirstName.test(firstNameFormValue)) {
+    firstNameErrorMsg.textContent = "Le champ Prénom ne doit pas contenir de chiffre";
+  }
+  else{
+    firstNameErrorMsg.textContent = " "
+  }
+});
+
+document.getElementById("lastName").addEventListener("input", function (e) {
+  let lastNameFormValue = e.target.value;
+  const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+  const masqueLastName = /[0-9]/;
+
+  if (lastNameFormValue && masqueLastName.test(lastNameFormValue)) {
+    lastNameErrorMsg.textContent = "Le champ Nom ne doit pas contenir de chiffre";
+  }
+  else{
+    lastNameErrorMsg.textContent = " "
+  }
+});
+
+document.getElementById("city").addEventListener("input", function (e) {
+  let cityFormValue = e.target.value;
+  const cityErrorMsg = document.getElementById("cityErrorMsg");
+  const masqueCity = /[0-9]/;
+
+  if (cityFormValue && masqueCity.test(cityFormValue)) {
+    cityErrorMsg.textContent = "Le champ Ville ne doit pas contenir de chiffre";
+  }
+  else{
+    cityErrorMsg.textContent = " "
+  }
+});
 
 document.getElementById("email").addEventListener("input", function (e) {
   const emailFormValue = e.target.value;
@@ -162,7 +188,10 @@ document.getElementById("email").addEventListener("input", function (e) {
   const masqueEmail1 = /@/;
   const masqueEmail2 = /\.com|\.fr/;
 
-  if (!emailFormValue || masqueEmail1.test(emailFormValue) && masqueEmail2.test(emailFormValue)) {
+  if (
+    !emailFormValue ||
+    (masqueEmail1.test(emailFormValue) && masqueEmail2.test(emailFormValue))
+  ) {
     emailErrorMsg.textContent = " ";
   } else {
     emailErrorMsg.textContent = "Veuillez renseigner une adresse email valide";
