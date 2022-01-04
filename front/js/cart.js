@@ -93,9 +93,132 @@ async function displayCart() {
 
 displayCart();
 
+//----------------------------------Validation des champs du formulaire----------------
+
+let isFirstNameValid = false;
+let isLastNameValid = false;
+let isAddressValid = false;
+let isCityValid = false;
+let isEmailValid = false;
+
+document.getElementById("firstName").addEventListener("input", function (e) {
+  let firstNameFormValue = e.target.value;
+  const firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+  const masqueFirstName = /[0-9]/;
+
+  if (firstNameFormValue && masqueFirstName.test(firstNameFormValue)) {
+    firstNameErrorMsg.textContent =
+      "Le champ Prénom ne doit pas contenir de chiffre";
+  } else {
+    firstNameErrorMsg.textContent = " ";
+    return (isFirstNameValid = true);
+  }
+});
+
+document.getElementById("lastName").addEventListener("input", function (e) {
+  let lastNameFormValue = e.target.value;
+  const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+  const masqueLastName = /[0-9]/;
+
+  if (lastNameFormValue && masqueLastName.test(lastNameFormValue)) {
+    lastNameErrorMsg.textContent =
+      "Le champ Nom ne doit pas contenir de chiffre";
+  } else {
+    lastNameErrorMsg.textContent = " ";
+    return (isLastNameValid = true);
+  }
+});
+
+document.getElementById("city").addEventListener("input", function (e) {
+  let cityFormValue = e.target.value;
+  const cityErrorMsg = document.getElementById("cityErrorMsg");
+  const masqueCity = /[0-9]/;
+
+  if (cityFormValue && masqueCity.test(cityFormValue)) {
+    cityErrorMsg.textContent = "Le champ Ville ne doit pas contenir de chiffre";
+  } else {
+    cityErrorMsg.textContent = " ";
+    return (isCityValid = true);
+  }
+});
+
+document.getElementById("address").addEventListener("input", function (e) {
+  let addressFormValue = e.target.value;
+  const addressErrorMsg = document.getElementById("addressErrorMsg");
+
+  if (!addressFormValue) {
+    addressErrorMsg.textContent = "Le champ Adresse doit être rempli";
+  } else {
+    addressErrorMsg.textContent = " ";
+    return (isAddressValid = true);
+  }
+});
+
+document.getElementById("email").addEventListener("input", function (e) {
+  const emailFormValue = e.target.value;
+  const emailErrorMsg = document.getElementById("emailErrorMsg");
+  const masqueEmail1 = /@/;
+  const masqueEmail2 = /\.com|\.fr/;
+
+  if (
+    !emailFormValue ||
+    (masqueEmail1.test(emailFormValue) && masqueEmail2.test(emailFormValue))
+  ) {
+    emailErrorMsg.textContent = " ";
+    return (isEmailValid = true);
+  } else {
+    emailErrorMsg.textContent = "Veuillez renseigner une adresse email valide";
+  }
+});
+
+//------------------------------------Commander----------------------------
+
+const orderButton = document.getElementById("order");
+class userContact {
+  constructor(firstName, lastName, address, city, email) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.address = address;
+    this.city = city;
+    this.email = email;
+  }
+}
+
+orderButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (
+    (isFirstNameValid,
+    isLastNameValid,
+    isAddressValid,
+    isCityValid,
+    isEmailValid)
+  ) {
+    let contact = new userContact(
+      document.getElementById("firstName").value,
+      document.getElementById("lastName").value,
+      document.getElementById("address").value,
+      document.getElementById("city").value,
+      document.getElementById("email").value
+    );
+
+    fetch("http://localhost:3000/api/order", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contact, getCart()),
+    });
+
+    // window.location.href = "../html/confirmation.html";
+  } else {
+    alert("Merci de bien renseigner tous les champs du formulaire");
+  }
+});
+
 //https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Modules
 
 //Modules
 //Suite de tests
-//Envoi du formaulaire et validation des champs
+//Envoi du formulaire et validation des champs
 //Page de validation

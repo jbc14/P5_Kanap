@@ -5,7 +5,6 @@ const productsList = () => {
     .then(function (res) {
       if (res.ok) {
         return res.json().then(function (productsObject) {
-          console.log(productsObject);
           return productsObject.map(function (productObject) {
             return productObject;
           });
