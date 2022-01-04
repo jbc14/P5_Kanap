@@ -1,18 +1,7 @@
+import { getProductContent, saveCart, getCart } from "./functions";
+
 function getProductId() {
   return new URL(location.href).searchParams.get("id");
-}
-
-function getProductContent(productId) {
-  return fetch("http://localhost:3000/api/products/" + productId)
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (product) {
-      return product;
-    })
-    .catch(function (error) {
-      alert(error);
-    });
 }
 
 function displayContent(productContent) {
@@ -36,21 +25,6 @@ async function main() {
 }
 
 main();
-
-//-------------------------------Troisième essai---------------------
-
-function saveCart(cart) {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-function getCart() {
-  let cart = localStorage.getItem("cart");
-  if (!cart) {
-    return [];
-  }
-
-  return JSON.parse(cart);
-}
 
 document.getElementById("addToCart").addEventListener("click", () => {
   const productId = getProductId();

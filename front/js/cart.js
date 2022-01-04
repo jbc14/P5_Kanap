@@ -1,33 +1,7 @@
-//---------------------------------------Récupérer et afficher le panier---------------------------------------------------
+import { saveCart, getCart, getProductContent } from "./functions.js";
 
 const cartItems = document.getElementById("cart__items");
 const products = [];
-
-function saveCart(cart) {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-function getCart() {
-  let cart = localStorage.getItem("cart");
-  if (!cart) {
-    return [];
-  }
-
-  return JSON.parse(cart);
-}
-
-function getProductContent(productId) {
-  return fetch("http://localhost:3000/api/products/" + productId)
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (product) {
-      return product;
-    })
-    .catch(function (error) {
-      alert(error);
-    });
-}
 
 function displayContent(productContent, productOptions) {
   cartItems.innerHTML += `<article class="cart__item" data-id="${productOptions.id}" data-color="${productOptions.color}">
@@ -53,31 +27,9 @@ function displayContent(productContent, productOptions) {
 </article>`;
 }
 
-//-----------------------------------Fonction pour mettre à jour le prix total après suppression d'un article-------------------------------
-
 function updateCartTotal() {
-  // let cartItemsContainer = document.getElementById("cart__items");
-  // let cartItems = cartItemsContainer.getElementsByClassName("cart__item");
-  // let totalCartPrice = 0;
-
-  // for (let cartItem of cartItems) {
-  //   let cartItemDescription = cartItem.getElementsByClassName(
-  //     "cart__item__content__description"
-  //   )[0];
-  //   let cartItemPriceElement = cartItemDescription.children[2];
-  //   let cartItemPrice = parseFloat(
-  //     cartItemPriceElement.innerText.replace(" €", "")
-  //   );
-  //   let cartItemQuantity =
-  //     cartItem.getElementsByClassName("itemQuantity")[0].value;
-
-  //   let cartItemTotalPrice = cartItemPrice * cartItemQuantity;
-
-  //   totalCartPrice = totalCartPrice + cartItemTotalPrice;
-  // }
-  // document.getElementById("totalPrice").innerText = totalCartPrice;
   const cart = getCart();
-  document.getElementById("totalPrice").innerText = cart.reduce(
+  document.getElementById("totalPrice").innerText = [].reduce(
     (total, element) => {
       const product = products.find((p) => p._id === element.id);
       return total + element.quantity * product.price;
