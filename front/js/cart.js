@@ -258,7 +258,7 @@ orderButton.addEventListener("click", (e) => {
       body: JSON.stringify(contact, getCart()),
     });
 
-    window.location.href = "../html/confirmation.html";
+    // window.location.href = "../html/confirmation.html";
   } else {
     alert("Merci de bien renseigner tous les champs du formulaire");
   }
