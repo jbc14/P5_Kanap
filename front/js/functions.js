@@ -11,8 +11,6 @@ export function getProductContent(productId) {
     });
 }
 
-
-
 export function saveCart(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }

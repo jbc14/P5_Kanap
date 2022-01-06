@@ -73,6 +73,8 @@ async function displayCart() {
     });
   }
 
+  //----------------------------------------Modifier la quantité et mettre à jour le total-------------------------------
+
   const quantityInput = document.getElementsByClassName("itemQuantity");
   for (let input of quantityInput) {
     input.addEventListener("change", function (event) {
@@ -195,13 +197,12 @@ orderButton.addEventListener("click", async (e) => {
     isCityValid,
     isEmailValid)
   ) {
-    let contact = new userContact(
-      document.getElementById("firstName").value,
+    let contact =
+      (document.getElementById("firstName").value,
       document.getElementById("lastName").value,
       document.getElementById("address").value,
       document.getElementById("city").value,
-      document.getElementById("email").value
-    );
+      document.getElementById("email").value);
     const orderId = await fetch("http://localhost:3000/api/products/order", {
       method: "POST",
       headers: {
@@ -225,10 +226,3 @@ orderButton.addEventListener("click", async (e) => {
     alert("Merci de bien renseigner tous les champs du formulaire");
   }
 });
-
-//https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Modules
-
-//Modules
-//Suite de tests
-//Envoi du formulaire et validation des champs
-//Page de validation

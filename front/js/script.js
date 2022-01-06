@@ -1,4 +1,4 @@
-// Récupérer les produits
+//------------------------------------------Récupérer les produits---------------------------
 
 const productsList = () => {
   return fetch("http://localhost:3000/api/products")
@@ -20,7 +20,7 @@ productsList().then(function (products) {
   createProducts(products);
 });
 
-// Afficher les produits
+//-------------------------------------------Afficher les produits-----------------------------
 
 const items = document.getElementById("items");
 
