@@ -1,4 +1,4 @@
-import { saveCart, getCart, getProductContent } from "./functions.js";
+import { getProductContent, saveCart, getCart } from "./functions.js";
 
 const cartItems = document.getElementById("cart__items");
 const products = [];
@@ -171,6 +171,8 @@ document.getElementById("email").addEventListener("input", function (e) {
   }
 });
 
+//dispatchEvent
+
 //------------------------------------Commander----------------------------
 
 const orderButton = document.getElementById("order");
@@ -184,7 +186,7 @@ class userContact {
   }
 }
 
-orderButton.addEventListener("click", (e) => {
+orderButton.addEventListener("click", async (e) => {
   e.preventDefault();
   if (
     (isFirstNameValid,
@@ -200,17 +202,25 @@ orderButton.addEventListener("click", (e) => {
       document.getElementById("city").value,
       document.getElementById("email").value
     );
-
-    fetch("http://localhost:3000/api/order", {
+    const orderId = await fetch("http://localhost:3000/api/products/order", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(contact, getCart()),
-    });
-
-    // window.location.href = "../html/confirmation.html";
+      body: JSON.stringify({
+        contact,
+        products: getCart().map((cartItem) => cartItem.id),
+      }),
+    })
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (response) {
+        return response.orderId;
+      });
+    //supp panier
+    window.location.href = `../html/confirmation.html?orderid=${orderId}`;
   } else {
     alert("Merci de bien renseigner tous les champs du formulaire");
   }
