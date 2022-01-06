@@ -219,7 +219,7 @@ orderButton.addEventListener("click", async (e) => {
       .then(function (response) {
         return response.orderId;
       });
-    //supp panier
+    localStorage.clear();
     window.location.href = `../html/confirmation.html?orderid=${orderId}`;
   } else {
     alert("Merci de bien renseigner tous les champs du formulaire");

@@ -1,4 +1,4 @@
-import { getProductContent, saveCart, getCart } from "./functions";
+import { getProductContent, saveCart, getCart } from "./functions.js";
 
 function getProductId() {
   return new URL(location.href).searchParams.get("id");
