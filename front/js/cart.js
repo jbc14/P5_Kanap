@@ -29,7 +29,7 @@ function displayContent(productContent, productOptions) {
 
 function updateCartTotal() {
   const cart = getCart();
-  document.getElementById("totalPrice").innerText = [].reduce(
+  document.getElementById("totalPrice").innerText = cart.reduce(
     (total, element) => {
       const product = products.find((p) => p._id === element.id);
       return total + element.quantity * product.price;
