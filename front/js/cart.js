@@ -37,6 +37,7 @@ function updateCartTotal() {
     0
   );
 }
+//-------------------------Main Function : Récupérer les produits, les intégrer au HTML, Supprimer ou changer quantité, Prix total
 
 async function displayCart() {
   for (let product of getCart()) {
@@ -103,126 +104,144 @@ let isAddressValid = false;
 let isCityValid = false;
 let isEmailValid = false;
 
-document.getElementById("firstName").addEventListener("input", function (e) {
+let firstNameInput = document.getElementById("firstName");
+let lastNameInput = document.getElementById("lastName");
+let addressInput = document.getElementById("address");
+let cityInput = document.getElementById("city");
+let emailInput = document.getElementById("email");
+
+firstNameInput.addEventListener("input", function (e) {
   let firstNameFormValue = e.target.value;
   const firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
   const masqueFirstName = /[0-9]/;
 
-  if (firstNameFormValue && masqueFirstName.test(firstNameFormValue)) {
-    firstNameErrorMsg.textContent =
-      "Le champ Prénom ne doit pas contenir de chiffre";
-  } else {
+  if (firstNameFormValue && !masqueFirstName.test(firstNameFormValue)) {
     firstNameErrorMsg.textContent = " ";
-    return (isFirstNameValid = true);
+    isFirstNameValid = true;
+  } else {
+    firstNameErrorMsg.textContent =
+      "Ce champ doit être rempli et ne pas contenir de chiffre";
+    isFirstNameValid = false;
   }
 });
 
-document.getElementById("lastName").addEventListener("input", function (e) {
+lastNameInput.addEventListener("input", function (e) {
   let lastNameFormValue = e.target.value;
   const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
   const masqueLastName = /[0-9]/;
 
-  if (lastNameFormValue && masqueLastName.test(lastNameFormValue)) {
-    lastNameErrorMsg.textContent =
-      "Le champ Nom ne doit pas contenir de chiffre";
+  if (lastNameFormValue && !masqueLastName.test(lastNameFormValue)) {
+    lastNameErrorMsg.textContent = "";
+    isLastNameValid = true;
   } else {
-    lastNameErrorMsg.textContent = " ";
-    return (isLastNameValid = true);
+    lastNameErrorMsg.textContent =
+      "Ce champ doit être rempli et ne pas contenir de chiffre";
+    isLastNameValid = false;
   }
 });
 
-document.getElementById("city").addEventListener("input", function (e) {
+addressInput.addEventListener("input", function (e) {
+  let addressFormValue = e.target.value;
+  const addressErrorMsg = document.getElementById("addressErrorMsg");
+
+  if (addressFormValue) {
+    addressErrorMsg.textContent = "";
+    isAddressValid = true;
+  } else {
+    addressErrorMsg.textContent = "Ce champ doit être rempli";
+    isAddressValid = false;
+  }
+});
+
+cityInput.addEventListener("input", function (e) {
   let cityFormValue = e.target.value;
   const cityErrorMsg = document.getElementById("cityErrorMsg");
   const masqueCity = /[0-9]/;
 
-  if (cityFormValue && masqueCity.test(cityFormValue)) {
-    cityErrorMsg.textContent = "Le champ Ville ne doit pas contenir de chiffre";
+  if (cityFormValue && !masqueCity.test(cityFormValue)) {
+    cityErrorMsg.textContent = "";
+    isCityValid = true;
   } else {
-    cityErrorMsg.textContent = " ";
-    return (isCityValid = true);
+    cityErrorMsg.textContent =
+      "Ce champ doit être rempli et ne pas contenir de chiffre";
+    isCityValid = false;
   }
 });
 
-document.getElementById("address").addEventListener("input", function (e) {
-  let addressFormValue = e.target.value;
-  const addressErrorMsg = document.getElementById("addressErrorMsg");
-
-  if (!addressFormValue) {
-    addressErrorMsg.textContent = "Le champ Adresse doit être rempli";
-  } else {
-    addressErrorMsg.textContent = " ";
-    return (isAddressValid = true);
-  }
-});
-
-document.getElementById("email").addEventListener("input", function (e) {
+emailInput.addEventListener("input", function (e) {
   const emailFormValue = e.target.value;
   const emailErrorMsg = document.getElementById("emailErrorMsg");
-  const masqueEmail1 = /@/;
-  const masqueEmail2 = /\.com|\.fr/;
+  const masqueEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
-  if (
-    !emailFormValue ||
-    (masqueEmail1.test(emailFormValue) && masqueEmail2.test(emailFormValue))
-  ) {
-    emailErrorMsg.textContent = " ";
-    return (isEmailValid = true);
+  if (emailFormValue && masqueEmail.test(emailFormValue)) {
+    emailErrorMsg.textContent = "";
+    isEmailValid = true;
   } else {
     emailErrorMsg.textContent = "Veuillez renseigner une adresse email valide";
+    isEmailValid = false;
   }
 });
 
-//dispatchEvent
+let inputEvent = new Event("input");
+firstNameInput.dispatchEvent(inputEvent);
+lastNameInput.dispatchEvent(inputEvent);
+addressInput.dispatchEvent(inputEvent);
+cityInput.dispatchEvent(inputEvent);
+emailInput.dispatchEvent(inputEvent);
 
 //------------------------------------Commander----------------------------
 
 const orderButton = document.getElementById("order");
-class userContact {
-  constructor(firstName, lastName, address, city, email) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.address = address;
-    this.city = city;
-    this.email = email;
-  }
-}
 
 orderButton.addEventListener("click", async (e) => {
   e.preventDefault();
-  if (
-    (isFirstNameValid,
-    isLastNameValid,
-    isAddressValid,
-    isCityValid,
-    isEmailValid)
-  ) {
-    let contact =
-      (document.getElementById("firstName").value,
-      document.getElementById("lastName").value,
-      document.getElementById("address").value,
-      document.getElementById("city").value,
-      document.getElementById("email").value);
-    const orderId = await fetch("http://localhost:3000/api/products/order", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contact,
-        products: getCart().map((cartItem) => cartItem.id),
-      }),
-    })
-      .then(function (res) {
-        return res.json();
-      })
-      .then(function (response) {
-        return response.orderId;
-      });
-    localStorage.clear();
-    window.location.href = `../html/confirmation.html?orderid=${orderId}`;
+  let cart = getCart();
+  console.log(cart);
+  if (cart.length == 0) {
+    alert("Votre panier est vide !");
   } else {
-    alert("Merci de bien renseigner tous les champs du formulaire");
+    if (
+      isFirstNameValid &&
+      isLastNameValid &&
+      isAddressValid &&
+      isCityValid &&
+      isEmailValid
+    ) {
+      let contact = {
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        email: document.getElementById("email").value,
+      };
+      const orderId = await fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contact,
+          products: getCart().map((cartItem) => cartItem.id),
+        }),
+      })
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (response) {
+          return response.orderId;
+        });
+      localStorage.cart = [];
+      window.location.href = `../html/confirmation.html?orderid=${orderId}`;
+    } else {
+      alert("Merci de bien renseigner tous les champs du formulaire");
+    }
   }
 });
+
+//vérifier si le panier est vide avant de valider OK
+//regex mail OK
+//saveCart [] OK
+//vérifier le retour back avant de passer sur la confirmation try catch
+//validation champ email OK
+//dispatchEvent OK
