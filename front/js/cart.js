@@ -196,7 +196,6 @@ const orderButton = document.getElementById("order");
 orderButton.addEventListener("click", async (e) => {
   e.preventDefault();
   let cart = getCart();
-  console.log(cart);
   if (cart.length == 0) {
     alert("Votre panier est vide !");
   } else {
