@@ -37,6 +37,17 @@ function updateCartTotal() {
     0
   );
 }
+
+function updateQuantityTotal() {
+  const cart = getCart();
+  document.getElementById("totalQuantity").innerText = cart.reduce(
+    (total, element) => {
+      const product = products.find((p) => p.quantity === element.quantity);
+      return total + element.quantity;
+    },
+    0
+  );
+}
 //-------------------------Main Function : Récupérer les produits, les intégrer au HTML, Supprimer ou changer quantité, Prix total
 
 async function displayCart() {
@@ -45,7 +56,7 @@ async function displayCart() {
     products.push(productContent);
     displayContent(productContent, product);
   }
-
+  updateQuantityTotal();
   updateCartTotal();
 
   //----------------------------------------Supprimer un article du panier et mettre à jour le total-------------------------------
@@ -70,6 +81,7 @@ async function displayCart() {
       cart.splice(productIndexToDelete, 1);
 
       saveCart(cart);
+      updateQuantityTotal();
       updateCartTotal();
     });
   }
@@ -89,6 +101,7 @@ async function displayCart() {
       const product = cart.find((p) => p.id === id && p.color === color);
       product.quantity = input.valueAsNumber;
       saveCart(cart);
+      updateQuantityTotal();
       updateCartTotal();
     });
   }
@@ -110,34 +123,29 @@ let addressInput = document.getElementById("address");
 let cityInput = document.getElementById("city");
 let emailInput = document.getElementById("email");
 
-firstNameInput.addEventListener("input", function (e) {
-  let firstNameFormValue = e.target.value;
-  const firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-  const masqueFirstName = /[0-9]/;
+const masqueNumbers = /[0-9]/;
 
-  if (firstNameFormValue && !masqueFirstName.test(firstNameFormValue)) {
-    firstNameErrorMsg.textContent = " ";
-    isFirstNameValid = true;
+function isValid(formValue, errorMsg) {
+  if (formValue && !masqueNumbers.test(formValue)) {
+    errorMsg.textContent = " ";
+    return true;
   } else {
-    firstNameErrorMsg.textContent =
+    errorMsg.textContent =
       "Ce champ doit être rempli et ne pas contenir de chiffre";
-    isFirstNameValid = false;
+    return false;
   }
+}
+
+firstNameInput.addEventListener("input", function (e) {
+  let formValue = e.target.value;
+  const errorMsg = document.getElementById("firstNameErrorMsg");
+  isFirstNameValid = isValid(formValue, errorMsg);
 });
 
 lastNameInput.addEventListener("input", function (e) {
-  let lastNameFormValue = e.target.value;
-  const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
-  const masqueLastName = /[0-9]/;
-
-  if (lastNameFormValue && !masqueLastName.test(lastNameFormValue)) {
-    lastNameErrorMsg.textContent = "";
-    isLastNameValid = true;
-  } else {
-    lastNameErrorMsg.textContent =
-      "Ce champ doit être rempli et ne pas contenir de chiffre";
-    isLastNameValid = false;
-  }
+  let formValue = e.target.value;
+  const errorMsg = document.getElementById("lastNameErrorMsg");
+  isLastNameValid = isValid(formValue, errorMsg);
 });
 
 addressInput.addEventListener("input", function (e) {
@@ -154,18 +162,9 @@ addressInput.addEventListener("input", function (e) {
 });
 
 cityInput.addEventListener("input", function (e) {
-  let cityFormValue = e.target.value;
-  const cityErrorMsg = document.getElementById("cityErrorMsg");
-  const masqueCity = /[0-9]/;
-
-  if (cityFormValue && !masqueCity.test(cityFormValue)) {
-    cityErrorMsg.textContent = "";
-    isCityValid = true;
-  } else {
-    cityErrorMsg.textContent =
-      "Ce champ doit être rempli et ne pas contenir de chiffre";
-    isCityValid = false;
-  }
+  let formValue = e.target.value;
+  const errorMsg = document.getElementById("cityErrorMsg");
+  isCityValid = isValid(formValue, errorMsg);
 });
 
 emailInput.addEventListener("input", function (e) {
@@ -230,17 +229,10 @@ orderButton.addEventListener("click", async (e) => {
         .then(function (response) {
           return response.orderId;
         });
-      localStorage.cart = [];
+      // localStorage.cart = [];
       window.location.href = `../html/confirmation.html?orderid=${orderId}`;
     } else {
       alert("Merci de bien renseigner tous les champs du formulaire");
     }
   }
 });
-
-//vérifier si le panier est vide avant de valider OK
-//regex mail OK
-//saveCart [] OK
-//vérifier le retour back avant de passer sur la confirmation try catch
-//validation champ email OK
-//dispatchEvent OK
